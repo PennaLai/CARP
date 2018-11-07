@@ -4,6 +4,7 @@ this program is used to solve the carp problem in the course cs303 Artifical int
 import argparse
 import time
 import numpy as np
+from utils.graph import Graph
 
 def main():
     """
@@ -22,6 +23,10 @@ def main():
     seed = arg_set.seed
     sampe_file = arg_set.instance
     infos, graph_data = read_file(sampe_file)
+    print(graph_data)
+    graph = Graph(graph_data)
+
+
 
 
 def read_file(sample_file):
@@ -41,7 +46,7 @@ def read_file(sample_file):
         if line_count <= 8:
             info = line.split(':')
             key = info[0].strip()
-            value = info[1].replace('\n','')
+            value = info[1].replace('\n', '')
             value = value.strip()
             infos[key] = value
         elif line_count > 9:
