@@ -5,12 +5,11 @@ import argparse
 import time
 import numpy as np
 
-
-
 def main():
-    '''
+    """
     main function
-    '''
+    :return:
+    """
     # start time
     start = time.time()
     # read the command
@@ -23,30 +22,33 @@ def main():
     seed = arg_set.seed
     sampe_file = arg_set.instance
     infos, graph_data = read_file(sampe_file)
-    print(graph_data)
 
 
 def read_file(sample_file):
-    '''
-    read the file for given sample
-    Args:
-        sample_file: the given sample file
-    Returns:
+    """
+    :param sample_file: the given sample file
+    :return:
         infos: the information except the graph data
         graph_data: the data that can make a graph
-    '''
+    """
     line_count = 1
     infos = dict()
-    graph_data = np.array()
-    while sample_file.read_file is not None:
+    graph_data = list()
+    while True:
         line = sample_file.readline()
-        if line_count <= 9:
+        if 'END' in line:
+            break
+        if line_count <= 8:
             info = line.split(':')
-            infos[info[0]] = info[1]
-        else:
+            key = info[0].strip()
+            value = info[1].replace('\n','')
+            value = value.strip()
+            infos[key] = value
+        elif line_count > 9:
             graph_info = line.split()
             graph_data.append([x.strip() for x in graph_info])
         line_count += 1
+    graph_data = np.array(graph_data)
     sample_file.close()
     return infos, graph_data
 
