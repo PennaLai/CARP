@@ -1,6 +1,6 @@
-'''
-this program is used to solve the carp problem in the course cs303 Artifical intelligence in SUSTECH
-'''
+"""
+this program is used to solve the carp problem in the course cs303 Artificial intelligence in SUSTECH
+"""
 import argparse
 import time
 import numpy as np
@@ -10,7 +10,6 @@ from utils.graph import Graph
 def main():
     """
     main function
-    :return:
     """
     # start time
     start = time.time()
@@ -25,6 +24,111 @@ def main():
     sample_file = arg_set.instance
     infos, graph_data = read_file(sample_file)
     graph = Graph(infos, graph_data)
+    path_scanning(graph, infos)
+
+
+def path_scanning(graph, infos):
+    """
+    this is the basic method to find the solution of carp problem
+    :param graph:
+    :param infos:
+    :return:
+    """
+    capa = int(infos['CAPACITY'])
+    cost_table = graph.cost_table
+    edge_set = graph.edge_set  # the relation of edge and cost, command
+    free_edge = get_free_edge(edge_set)  # the edge whose demand are larger than zero
+    demand = []
+    cost = []
+    route = []
+    while free_edge:  # while free_edge is not empty
+        print('========================================================')
+        edges = free_edge.copy()  # only for this path task using
+        edges = get_less_cap_edge(edges, edge_set, capa)
+        node_now = 1  # begin from depot
+        this_cap = capa
+        this_cost = 0
+        this_demand = 0
+        route.append([])
+        while edges:  # while there are still edges that satisfy our cap
+            next_node, next_cost, next_edge = find_lowest_cost_edge(edges, edge_set, cost_table, node_now)
+            node_now = next_node
+            this_cap -= edge_set[next_edge].Demand
+            # add edge with right direction into list
+            if next_edge[1] == node_now:
+                route[-1].append(next_edge)
+            else:
+                route[-1].append((next_edge[1], next_edge[0]))
+            # after clean, remove this edge
+            free_edge.remove(next_edge)
+            edges.remove(next_edge)
+            # update the new edges that satisfy capacity
+            edges = get_less_cap_edge(edges, edge_set, this_cap)
+            this_cost += next_cost
+            this_demand += edge_set[next_edge].Demand
+        cost.append(this_cost)
+        demand.append(this_demand)
+    print(route)
+    print('cost=', cost)
+    print('demand=', demand)
+    print('free_edge may empty', free_edge)
+
+
+def find_lowest_cost_edge(edges, edge_set, cost_table, node_pos):
+    """
+    :param edges: the edge set that satisfy capacity right now
+    :param edge_set: the edge set that contain demand information
+    :param cost_table: the all cost information between two node
+    :param node_pos: the position which we are in now
+    :return:
+        next_node : the next node we will arrive
+        total_cost : the cost to the last position
+        edge: the next edge
+    """
+    near_node = -1
+    near_cost = float('inf')
+    print('position_now =====================', node_pos)
+    near_list_edge = []
+    for edge in edges:
+        for x in edge:
+            if cost_table[node_pos-1, x-1] <= near_cost:
+                if x != near_node:  # if we have not meet this node before
+                    near_node = x
+                    near_cost = cost_table[node_pos-1, x-1]
+                    near_list_edge = []  # update new near_node and clear the list
+                near_list_edge.append(edge)
+    '''
+     if we find a nearest node, but it may have server edge in this node, we need to find a one
+     now we find the one which have large demand that we can collect more demand this time, we can change the way to find it later
+    '''
+    # sort its demand from low to high
+    near_list_edge.sort(key=lambda edge: edge_set[edge].Demand)
+    next_edge = near_list_edge[-1]
+    next_node = next_edge[0] if next_edge[0] != near_node else next_edge[1]
+    total_cost = near_cost + cost_table[next_edge[0]-1, next_edge[1]-1]
+    print('near_node', near_node, 'next_node', next_node, 'edge', next_edge, 'cost', total_cost, 'demand',edge_set[next_edge].Demand)
+    return next_node, total_cost, next_edge
+
+
+def get_free_edge(edge_set):
+    """
+    for given a edge dict, return a list contains
+    the free_edge whose demand equals to zero
+    :param edge_set: a dict
+    :return: free_edge: a list
+    """
+    return [edge for edge in edge_set.keys() if edge_set[edge].Demand != 0]
+
+
+def get_less_cap_edge(edges, edge_set, cap):
+    """
+    find the edge that still can satisfy cap
+    :param edges: edge set right now
+    :param edge_set: information set
+    :param cap: cap that the vehicles have now
+    :return:
+    """
+    return [edge for edge in edges if not edge_set[edge].Demand > cap]
 
 
 def read_file(sample_file):

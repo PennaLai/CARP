@@ -5,11 +5,16 @@ a class used to make the graph
 import collections
 import numpy as np
 
-edge_info = collections.namedtuple('edge_info', 'Cost Demand')
+edge_info = collections.namedtuple('edge_info', 'Demand')
 
 
-class Graph():
+class Graph:
     def __init__(self, infos, graph_data):
+        """
+        init the graph
+        :param infos: the information of the problem
+        :param graph_data: the data of the problem
+        """
         self.vertices_set = dict()
         self.edge_set = dict()
         self.verti_numb = int(infos['VERTICES'])  # number of node
@@ -19,6 +24,8 @@ class Graph():
             self.cost_table[i, i] = 0
         self.read_data(graph_data)
         floyd(self.cost_table)
+        print(self.cost_table)
+        print(self.edge_set)
 
     def read_data(self, graph_data):
         """
@@ -30,11 +37,11 @@ class Graph():
             y = int(data[1])
             cost = int(data[2])
             demand = int(data[3])
-            self.add_vertice(x, y)
-            self.add_vertice(y, x)
+            self.add_vertices(x, y)
+            self.add_vertices(y, x)
             self.add_edge(x, y, cost, demand)
 
-    def add_vertice(self, x, y):
+    def add_vertices(self, x, y):
         """
         add a node into graph
         :param x: node1
@@ -53,7 +60,7 @@ class Graph():
         :param demand: demand from node1 to node2
         """
         if (x, y) not in self.edge_set:
-            self.edge_set[(x, y)] = edge_info(Cost=cost, Demand=demand)
+            self.edge_set[(x, y)] = edge_info(Demand=int(demand))
             # the numpy index begin from 0 but the vertices begin from 1
             self.cost_table[x-1, y-1] = int(cost)
             self.cost_table[y-1, x-1] = int(cost)
