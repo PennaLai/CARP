@@ -6,6 +6,7 @@ import time
 import numpy as np
 from utils.graph import Graph
 
+
 def main():
     """
     main function
@@ -16,17 +17,14 @@ def main():
     # read the command
     parser = argparse.ArgumentParser(prog='CARP',description='import problem')
     parser.add_argument('instance', type=argparse.FileType('r'))
-    parser.add_argument('-t','--time', type=int)
-    parser.add_argument('-s','--seed', type=int)
+    parser.add_argument('-t', '--time', type=int)
+    parser.add_argument('-s', '--seed', type=int)
     arg_set = parser.parse_args()
     limit_time = arg_set.time
     seed = arg_set.seed
-    sampe_file = arg_set.instance
-    infos, graph_data = read_file(sampe_file)
-    print(graph_data)
-    graph = Graph(graph_data)
-
-
+    sample_file = arg_set.instance
+    infos, graph_data = read_file(sample_file)
+    graph = Graph(infos, graph_data)
 
 
 def read_file(sample_file):
