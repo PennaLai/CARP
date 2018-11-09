@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cbc83fa2-a68d-4ba2-bed8-35c044f88c43" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CARP_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/CARP_solver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/draw_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/draw_graph.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/graph.py" afterDir="false" />
@@ -15,14 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CARP_solver.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CARP_solver.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CARP_solver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="72" column="27" selection-start-line="72" selection-start-column="27" selection-end-line="72" selection-end-column="27" />
-              <folding>
-                <element signature="e#109#124#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="462">
+              <caret line="102" column="45" lean-forward="true" selection-start-line="102" selection-start-column="32" selection-end-line="102" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -30,11 +28,20 @@
       <file leaf-file-name="graph.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/graph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+            <state relative-caret-position="104">
+              <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
               <folding>
                 <element signature="e#41#59#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="egl-s1-A.dat" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CARP_Samples/egl-s1-A.dat">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -43,7 +50,7 @@
         <entry file="file://$PROJECT_DIR$/utils/draw_graph.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="468">
-              <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+              <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -51,11 +58,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gdb3.dat" pinned="false" current-in-tab="true">
+      <file leaf-file-name="gdb3.dat" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CARP_Samples/gdb3.dat">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="669">
-              <caret line="33" column="19" lean-forward="true" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
+            <state relative-caret-position="442">
+              <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -63,35 +70,8 @@
       <file leaf-file-name="val1A.dat" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CARP_Samples/val1A.dat">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-163">
+            <state relative-caret-position="520">
               <caret line="20" column="17" lean-forward="true" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="gdb1.dat" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CARP_Samples/gdb1.dat">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="egl-s1-A.dat" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CARP_Samples/egl-s1-A.dat">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1983">
-              <caret line="1" column="1" selection-start-line="1" selection-start-column="1" selection-end-line="1" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CARP_format.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CARP_format.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret lean-forward="true" />
             </state>
           </provider>
         </entry>
@@ -107,8 +87,8 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>pr</find>
       <find>print</find>
+      <find>pr</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -119,6 +99,7 @@
       <list>
         <option value="$PROJECT_DIR$/CARP.py" />
         <option value="$PROJECT_DIR$/CARP_Samples/egl-s1-A.dat" />
+        <option value="$PROJECT_DIR$/CARP_Samples/gdb3.dat" />
         <option value="$PROJECT_DIR$/utils/draw_graph.py" />
         <option value="$PROJECT_DIR$/utils/graph.py" />
         <option value="$PROJECT_DIR$/CARP_solver.py" />
@@ -126,10 +107,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="542" />
-    <option name="height" value="605" />
+    <option name="x" value="-16" />
+    <option name="y" value="-16" />
+    <option name="width" value="975" />
+    <option name="height" value="1089" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -150,11 +131,6 @@
               <item name="CARP" type="b2602c69:ProjectViewProjectNode" />
               <item name="CARP" type="462c0819:PsiDirectoryNode" />
               <item name="CARP_Samples" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CARP" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CARP" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -198,7 +174,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CARP_solver.py" />
-      <option name="PARAMETERS" value="gdb3.dat -t 1 -s 1" />
+      <option name="PARAMETERS" value="gdb1.dat -t 1 -s 1" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -240,15 +216,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <frame x="-6" y="-6" width="1346" height="901" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.24702774" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.24695122" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5007622" side_tool="true" weight="0.30829015" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32901555" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.32931727" />
-      <window_info active="true" anchor="bottom" x="668" y="176" width="692" height="551" id="Run" order="2" sideWeight="0.4992378" type="FLOATING" visible="true" weight="0.43105757" />
+      <window_info anchor="bottom" x="70" y="93" width="1194" height="702" id="Run" order="2" sideWeight="0.4992378" type="FLOATING" weight="0.43105757" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -259,7 +236,6 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -270,9 +246,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
           <caret line="26" column="23" lean-forward="true" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
-          <folding>
-            <element signature="e#109#124#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -290,13 +263,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CARP_solver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#109#124#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/CARP_format.txt">
       <provider selected="true" editor-type-id="text-editor" />
@@ -326,16 +293,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CARP_Samples/gdb10.dat">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CARP_Samples/val1A.dat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-163">
-          <caret line="20" column="17" lean-forward="true" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CARP_format.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -343,27 +300,73 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CARP_Samples/egl-s1-A.dat">
+    <entry file="file://$PROJECT_DIR$/NEW_CARP_samples/gdb1.dat">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/networkx/classes/graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1983">
-          <caret line="1" column="1" selection-start-line="1" selection-start-column="1" selection-end-line="1" selection-end-column="1" />
+        <state relative-caret-position="248">
+          <caret line="994" selection-start-line="994" selection-end-line="994" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CARP_Samples/gdb1.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-end-line="2" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CARP_Samples/gdb10.dat">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CARP_Samples/val7A.dat">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CARP_Samples/val4A.dat">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CARP_Samples/val1A.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="520">
+          <caret line="20" column="17" lean-forward="true" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/egl-s1-A.dat">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CARP_Samples/egl-e1-A.dat">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/draw_graph.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="468">
-          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+          <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CARP_Samples/egl-s1-A.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CARP_Samples/gdb3.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/utils/graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+        <state relative-caret-position="104">
+          <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
           <folding>
             <element signature="e#41#59#0" expanded="true" />
           </folding>
@@ -372,25 +375,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CARP_solver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="72" column="27" selection-start-line="72" selection-start-column="27" selection-end-line="72" selection-end-column="27" />
-          <folding>
-            <element signature="e#109#124#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CARP_Samples/gdb1.dat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CARP_Samples/gdb3.dat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="669">
-          <caret line="33" column="19" lean-forward="true" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
+        <state relative-caret-position="462">
+          <caret line="102" column="45" lean-forward="true" selection-start-line="102" selection-start-column="32" selection-end-line="102" selection-end-column="45" />
         </state>
       </provider>
     </entry>

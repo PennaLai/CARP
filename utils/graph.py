@@ -24,7 +24,7 @@ class Graph:
             self.cost_table[i, i] = 0
         self.read_data(graph_data)
         floyd(self.cost_table)
-        print(self.cost_table)
+        print_table(self.cost_table)
         print(self.edge_set)
 
     def read_data(self, graph_data):
@@ -72,8 +72,16 @@ def floyd(dis_arr):
     :param dis_arr: the distance array
     """
     res_len = len(dis_arr)
-    for i in range(res_len):
-        for j in range(res_len):
-            for k in range(res_len):
-                if dis_arr[i, j] > dis_arr[i, k] + dis_arr[k, j]:
-                    dis_arr[i, j] = dis_arr[i, k] + dis_arr[k, j]
+    for k in range(res_len):
+        for i in range(res_len):
+            for j in range(res_len):
+                dis_arr[i, j] = min(dis_arr[i, j], dis_arr[i, k] + dis_arr[k, j])
+
+
+def print_table(np_array):
+    print('==============')
+    for x in np_array:
+        for y in x:
+            print(y, end=' ')
+        print()
+    print('==============')

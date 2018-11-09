@@ -16,7 +16,7 @@ def draw_graph(e):
 
 if __name__ == '__main__':
     edges = []
-    with open('gdb3.dat', 'r') as file:
+    with open('egl-s1-A.dat', 'r') as file:
         for i in range(9):
             file.readline()
         line = file.readline()

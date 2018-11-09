@@ -24,7 +24,10 @@ def main():
     sample_file = arg_set.instance
     infos, graph_data = read_file(sample_file)
     graph = Graph(infos, graph_data)
-    path_scanning(graph, infos)
+    answer = path_scanning(graph, infos)
+    print(answer)
+    end = time.time()
+    print('total_time', end-start)
 
 
 def path_scanning(graph, infos):
@@ -32,7 +35,7 @@ def path_scanning(graph, infos):
     this is the basic method to find the solution of carp problem
     :param graph:
     :param infos:
-    :return:
+    :return: the soultion path
     """
     capa = int(infos['CAPACITY'])
     cost_table = graph.cost_table
@@ -66,12 +69,15 @@ def path_scanning(graph, infos):
             edges = get_less_cap_edge(edges, edge_set, this_cap)
             this_cost += next_cost
             this_demand += edge_set[next_edge].Demand
+        this_cost += cost_table[node_now-1, 0]  # add the back cost
         cost.append(this_cost)
         demand.append(this_demand)
     print(route)
     print('cost=', cost)
+    print('total_cost', sum(cost))
     print('demand=', demand)
     print('free_edge may empty', free_edge)
+    return solution_output(route)
 
 
 def find_lowest_cost_edge(edges, edge_set, cost_table, node_pos):
@@ -106,7 +112,7 @@ def find_lowest_cost_edge(edges, edge_set, cost_table, node_pos):
     next_edge = near_list_edge[-1]
     next_node = next_edge[0] if next_edge[0] != near_node else next_edge[1]
     total_cost = near_cost + cost_table[next_edge[0]-1, next_edge[1]-1]
-    print('near_node', near_node, 'next_node', next_node, 'edge', next_edge, 'cost', total_cost, 'demand',edge_set[next_edge].Demand)
+    print('near_node', near_node, 'next_node', next_node, 'edge', next_edge, 'cost', total_cost, 'demand', edge_set[next_edge].Demand)
     return next_node, total_cost, next_edge
 
 
@@ -126,7 +132,6 @@ def get_less_cap_edge(edges, edge_set, cap):
     :param edges: edge set right now
     :param edge_set: information set
     :param cap: cap that the vehicles have now
-    :return:
     """
     return [edge for edge in edges if not edge_set[edge].Demand > cap]
 
@@ -158,6 +163,23 @@ def read_file(sample_file):
     graph_data = np.array(graph_data)
     sample_file.close()
     return infos, graph_data
+
+
+def solution_output(route):
+    """
+    give a format output of the answer
+    :param route: the array contain the route information
+    :return: r: route string like s 0,(1,2),(2,4),(4,1),0,0,(4,3),(3,1),0
+    """
+    r = 's '
+    for path in route:
+        r += '0,'
+        for edge in path:
+            r += '({},{}),'.format(edge[0], edge[1])
+        r += '0'
+        if path != route[-1]:
+            r += ','
+    return r
 
 
 if __name__ == '__main__':
