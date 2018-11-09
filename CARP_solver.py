@@ -69,7 +69,7 @@ def path_scanning(graph, infos):
             edges = get_less_cap_edge(edges, edge_set, this_cap)
             this_cost += next_cost
             this_demand += edge_set[next_edge].Demand
-        this_cost += cost_table[node_now-1, 0]  # add the back cost
+        this_cost += cost_table[node_now-1, 0]  # add the back to depot cost
         cost.append(this_cost)
         demand.append(this_demand)
     print(route)
@@ -111,7 +111,7 @@ def find_lowest_cost_edge(edges, edge_set, cost_table, node_pos):
     near_list_edge.sort(key=lambda edge: edge_set[edge].Demand)
     next_edge = near_list_edge[-1]
     next_node = next_edge[0] if next_edge[0] != near_node else next_edge[1]
-    total_cost = near_cost + cost_table[next_edge[0]-1, next_edge[1]-1]
+    total_cost = near_cost + edge_set[next_edge].Cost  # the cost to the nearest node + edge cost
     print('near_node', near_node, 'next_node', next_node, 'edge', next_edge, 'cost', total_cost, 'demand', edge_set[next_edge].Demand)
     return next_node, total_cost, next_edge
 

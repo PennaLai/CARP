@@ -5,7 +5,7 @@ a class used to make the graph
 import collections
 import numpy as np
 
-edge_info = collections.namedtuple('edge_info', 'Demand')
+edge_info = collections.namedtuple('edge_info', 'Cost Demand')
 
 
 class Graph:
@@ -60,7 +60,7 @@ class Graph:
         :param demand: demand from node1 to node2
         """
         if (x, y) not in self.edge_set:
-            self.edge_set[(x, y)] = edge_info(Demand=int(demand))
+            self.edge_set[(x, y)] = edge_info(Cost=int(cost), Demand=int(demand))
             # the numpy index begin from 0 but the vertices begin from 1
             self.cost_table[x-1, y-1] = int(cost)
             self.cost_table[y-1, x-1] = int(cost)
