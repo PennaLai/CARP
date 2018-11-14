@@ -5,7 +5,13 @@ import argparse
 import time
 import numpy as np
 from utils.graph import Graph
+from multiprocessing import Pool
+from collections import namedtuple
 
+PROCESSORS = 4
+Solution = namedtuple("Solution", "Route Cost Index")
+LIMIT_TIME = 0
+SEED = 0
 
 def main():
     """
@@ -19,23 +25,52 @@ def main():
     parser.add_argument('-t', '--time', type=int)
     parser.add_argument('-s', '--seed', type=int)
     arg_set = parser.parse_args()
-    limit_time = arg_set.time
-    seed = arg_set.seed
+    LIMIT_TIME = arg_set.time
+    SEED = arg_set.seed
     sample_file = arg_set.instance
     infos, graph_data = read_file(sample_file)
     graph = Graph(infos, graph_data)
-    answer = path_scanning(graph, infos)
-    print(answer)
+    populations = []
+    # multiprocessing
+    # p = Pool(PROCESSORS)
+    # for i in range(PROCESSORS):
+    #     # p.apply_async(init_population, (200, graph, infos))
+    #     p.map_async(init_population, (200, graph, infos))
+    # print('wait for all subprocesses done')
+    # p.close()
+    # p.join()
+    # print('all subprocesses done')
+    # print('lens', len(populations))
+    answer = path_scanning(graph, infos, 0)
+    r = solution_output(answer.Route)
+    print(r)
+    print('q ', int(answer.Cost))
     end = time.time()
     print('total_time', end-start)
 
 
-def path_scanning(graph, infos):
+def init_population(pop_num, graph, infos):
+    """
+    this method use random path-scanning to generate the population
+    :param pop_num: the number of the population
+    :return: a group of population
+    """
+    populations = []
+    for i in range(pop_num):
+        solution = path_scanning(graph, infos, i)
+        populations.append(solution)
+    print(len(populations))
+    return populations
+
+
+def path_scanning(graph, infos, index):
     """
     this is the basic method to find the solution of carp problem
     :param graph:
     :param infos:
-    :return: the soultion path
+    :return:
+        route: the solution path
+        total_cost : the cost for this path scanning
     """
     capa = int(infos['CAPACITY'])
     cost_table = graph.cost_table
@@ -45,7 +80,6 @@ def path_scanning(graph, infos):
     cost = []
     route = []
     while free_edge:  # while free_edge is not empty
-        print('========================================================')
         edges = free_edge.copy()  # only for this path task using
         edges = get_less_cap_edge(edges, edge_set, capa)
         node_now = 1  # begin from depot
@@ -54,7 +88,15 @@ def path_scanning(graph, infos):
         this_demand = 0
         route.append([])
         while edges:  # while there are still edges that satisfy our cap
+            '''
+            the next edge has a big influence on the result, maybe 
+            we can choose the diff way to choose next cost, for example
+            the ratio of demand/cost
+            improve it later !
+            '''
+            # =========== choose edge setting ==============
             next_node, next_cost, next_edge = find_lowest_cost_edge(edges, edge_set, cost_table, node_now)
+            #  =============================================
             node_now = next_node
             this_cap -= edge_set[next_edge].Demand
             # add edge with right direction into list
@@ -66,18 +108,23 @@ def path_scanning(graph, infos):
             free_edge.remove(next_edge)
             edges.remove(next_edge)
             # update the new edges that satisfy capacity
+            '''
+            sometimes we can give up, that means if there are still 
+            have edge we can clean but with high cost. we could give up
+            '''
+            # =========== give up setting ==============
+            # just a example
+            this_cap = this_cap-1 if this_cap > 1 else this_cap
+            # ==========================================
             edges = get_less_cap_edge(edges, edge_set, this_cap)
             this_cost += next_cost
             this_demand += edge_set[next_edge].Demand
         this_cost += cost_table[node_now-1, 0]  # add the back to depot cost
         cost.append(this_cost)
         demand.append(this_demand)
-    print(route)
-    print('cost=', cost)
-    print('total_cost', sum(cost))
-    print('demand=', demand)
-    print('free_edge may empty', free_edge)
-    return solution_output(route)
+    total_cost = sum(cost)
+    solution = Solution(Route=route, Cost=total_cost, Index=index)
+    return solution
 
 
 def find_lowest_cost_edge(edges, edge_set, cost_table, node_pos):
@@ -93,7 +140,6 @@ def find_lowest_cost_edge(edges, edge_set, cost_table, node_pos):
     """
     near_node = -1
     near_cost = float('inf')
-    print('position_now =====================', node_pos)
     near_list_edge = []
     for edge in edges:
         for x in edge:
@@ -105,14 +151,13 @@ def find_lowest_cost_edge(edges, edge_set, cost_table, node_pos):
                 near_list_edge.append(edge)
     '''
      if we find a nearest node, but it may have server edge in this node, we need to find a one
-     now we find the one which have large demand that we can collect more demand this time, we can change the way to find it later
+     now we find the one which have large demand that we can collect more demand this time, we can improve the way to find it later
     '''
     # sort its demand from low to high
     near_list_edge.sort(key=lambda edge: edge_set[edge].Demand)
     next_edge = near_list_edge[-1]
     next_node = next_edge[0] if next_edge[0] != near_node else next_edge[1]
     total_cost = near_cost + edge_set[next_edge].Cost  # the cost to the nearest node + edge cost
-    print('near_node', near_node, 'next_node', next_node, 'edge', next_edge, 'cost', total_cost, 'demand', edge_set[next_edge].Demand)
     return next_node, total_cost, next_edge
 
 

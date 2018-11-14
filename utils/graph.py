@@ -2,10 +2,10 @@
 a class used to make the graph
 """
 
-import collections
+from collections import namedtuple
 import numpy as np
 
-edge_info = collections.namedtuple('edge_info', 'Cost Demand')
+edge_info = namedtuple('edge_info', 'Cost Demand')
 
 
 class Graph:
@@ -24,8 +24,8 @@ class Graph:
             self.cost_table[i, i] = 0
         self.read_data(graph_data)
         floyd(self.cost_table)
-        print_table(self.cost_table)
-        print(self.edge_set)
+        # print_table(self.cost_table)
+        # print(self.edge_set)
 
     def read_data(self, graph_data):
         """
@@ -79,9 +79,7 @@ def floyd(dis_arr):
 
 
 def print_table(np_array):
-    print('==============')
     for x in np_array:
         for y in x:
             print(y, end=' ')
         print()
-    print('==============')
