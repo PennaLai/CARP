@@ -25,7 +25,7 @@ class EvoSolves:
                 parent_fitness = min(fitness(pa), fitness(pb))
                 fit_chi1 = fitness(child1)
                 fit_chi2 = fitness(child2)
-                if fitness(child1) < parent_fitness: # the cost, less is better
+                if fitness(child1) < parent_fitness:  # the cost, less is better
                     #replace pa by child1
                     if fitness(child1) < fitness(self.best_solution):
                         self.best_solution = child1
