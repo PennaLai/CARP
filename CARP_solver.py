@@ -5,8 +5,9 @@ import argparse
 import time
 import numpy as np
 from utils.graph import Graph
-from multiprocessing import Pool
+from multiprocessing import Pool, Manager
 from collections import namedtuple
+
 
 PROCESSORS = 4
 Solution = namedtuple("Solution", "Route Cost Index")
@@ -30,17 +31,18 @@ def main():
     sample_file = arg_set.instance
     infos, graph_data = read_file(sample_file)
     graph = Graph(infos, graph_data)
-    populations = []
-    # multiprocessing
-    # p = Pool(PROCESSORS)
-    # for i in range(PROCESSORS):
-    #     # p.apply_async(init_population, (200, graph, infos))
-    #     p.map_async(init_population, (200, graph, infos))
-    # print('wait for all subprocesses done')
-    # p.close()
-    # p.join()
-    # print('all subprocesses done')
-    # print('lens', len(populations))
+    mg = Manager()
+    populations = mg.list()
+    # multiprocessing to init the population
+    p = Pool(PROCESSORS)
+    for i in range(PROCESSORS):
+        p.apply_async(init_population, (populations, 200, graph, infos))
+        # p.map_async(init_population, (200, graph, infos))
+    print('wait for all subprocesses done')
+    p.close()
+    p.join()
+    print('all subprocesses done')
+    print('populations number is ', len(populations))
     answer = path_scanning(graph, infos, 0)
     r = solution_output(answer.Route)
     print(r)
@@ -49,18 +51,15 @@ def main():
     print('total_time', end-start)
 
 
-def init_population(pop_num, graph, infos):
+def init_population(result_list, pop_num, graph, infos):
     """
     this method use random path-scanning to generate the population
     :param pop_num: the number of the population
     :return: a group of population
     """
-    populations = []
     for i in range(pop_num):
         solution = path_scanning(graph, infos, i)
-        populations.append(solution)
-    print(len(populations))
-    return populations
+        result_list.append(solution)
 
 
 def path_scanning(graph, infos, index):
