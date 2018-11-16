@@ -7,7 +7,7 @@ import numpy as np
 from utils.graph import Graph
 from multiprocessing import Pool, Manager
 from collections import namedtuple
-from utils.evolution import EvoSolves
+from utils.evolution import *
 from utils.population import *
 
 PROCESSORS = 4
@@ -49,7 +49,7 @@ def main():
     print_populations(populations)
     print('populations number is ', len(populations))
     best = find_best_solution(populations)
-    solution_output(best.Route)
+    print('best route', solution_output(best.Route))
     print('q', best.Cost)
     print('graph cal cost', graph.calculate_cost(best.Route))
     init_end = time.time()
@@ -57,6 +57,10 @@ def main():
     evolution_time = LIMIT_TIME - init_time
     # start evolution
     evo = EvoSolves(graph, populations, evolution_time, seed=SEED)
+    mutation_route = mutation(best.Route)
+    mutation_cost = graph.calculate_cost(mutation_route)
+    print('mutation route', solution_output(mutation_route))
+    print('mutation cost', mutation_cost)
     print('The limited time is ', LIMIT_TIME)
     print('init_group_time', init_time)
     print("there is {} second for evolution".format(evolution_time))

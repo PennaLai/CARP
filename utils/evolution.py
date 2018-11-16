@@ -74,6 +74,10 @@ def mutation(solution):
     """
     new_solution = solution.copy()
     # a simple mutation
-    
+    for task in new_solution:
+        num_edge = len(task)
+        mu_edge = task[num_edge-1]
+        inv_edge = (mu_edge[1], mu_edge[0])
+        task[num_edge-1] = inv_edge
     return new_solution
 
