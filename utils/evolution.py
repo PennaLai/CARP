@@ -1,6 +1,6 @@
 import time
 import random
-
+from CARP_solver import Solution
 
 class EvoSolves:
 
@@ -38,46 +38,71 @@ class EvoSolves:
                     # replace the parent which have largest cost
                     lar_cost_pa = pa if fitness(pa) > fitness(pb) else pb
 
+    def mutation(self, solution):
+        """
+        mutate one solution to the new solution
+        this time, we flip every edge to find a better solution, return a new solution that must not bad than previous one
+        :param solution:
+        :return: new_solution : the new solution
+        """
+        new_route = solution.Route.copy()
+        cost = solution.Cost
+        new_cost = 0
+        # a simple mutation
+        for task in new_route:
+            edge_index = 0
+            for edge in task:
+                inv_edge = (edge[1], edge[0])
+                task[edge_index] = inv_edge
+                new_cost = self.graph.calculate_cost(new_route)
+                if new_cost >= cost:
+                    task[edge_index] = edge  # if worse, change back and nothing happen
+                else:
+                    cost = new_cost
+                edge_index += 1
+        new_cost = self.graph.calculate_cost(new_route)
+        return Solution(Route=new_route, Cost=new_cost)
 
-def select_parent(p):
-    """
-    given a population, select two parents randomly from the population
-    :param p:
-    :return:
-    """
-    p1, p2 = random.sample(p, 2)
+    def population_mutate(self):
+        """
+        this function just to mutate every solution in the population
+        it cost lot of time, and it may be no use for the answer
+        so it just a extra function
+        :return:
+        """
+        index = 0
+        for p in self.population:
+            self.population[index] = self.mutation(p)
+            index += 1
+
+    def select_parent(self, p):
+        """
+        given a population, select two parents randomly from the population
+        :param p:
+        :return:
+        """
+        p1, p2 = random.sample(p, 2)
+
+    def crossover(self, pa, pb):
+        """
+        crossover two parents, and breed two child
+        the chromosome T is a permutation of t required edges (tasks)
+        :param pa: parent1
+        :param pb: parent2
+        :return:
+            child1
+            child2
+        """
+
+        pass
 
 
 def fitness(solution):
     return solution.Cost
 
 
-def crossover(pa, pb):
-    """
-    crossover two parents, and breed two child
-    the chromosome T is a permutation of t required edges (tasks)
-    :param pa: parent1
-    :param pb: parent2
-    :return:
-        child1
-        child2
-    """
-
-    pass
 
 
-def mutation(solution):
-    """
-    mutate one solution to the new solution
-    :param solution:
-    :return: new_solution : the new solution
-    """
-    new_solution = solution.copy()
-    # a simple mutation
-    for task in new_solution:
-        num_edge = len(task)
-        mu_edge = task[num_edge-1]
-        inv_edge = (mu_edge[1], mu_edge[0])
-        task[num_edge-1] = inv_edge
-    return new_solution
+
+
 

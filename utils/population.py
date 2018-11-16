@@ -7,10 +7,16 @@ def find_best_solution(populations):
     if len(populations) == 0:
         print('populations are all died')
         return None
+    # sort_population(populations)
     return populations[0]
 
 
 def sort_population(population):
+    """
+    sort population by their cost
+    :param population:
+    :return:
+    """
     return population.sort(key=lambda pop: pop.Cost)
 
 
@@ -22,4 +28,16 @@ def print_populations(populations):
     """
     for x in populations:
         print(x.Cost)
-        print(x.Route)
+
+
+def ave_population_cost(populations):
+    """
+    this function used to evaluate the fitness of the whole group
+    :param populations:
+    :return:
+    """
+    total_cost = 0
+    num = len(populations)
+    for po in populations:
+        total_cost += po.Cost
+    return int(total_cost/num)

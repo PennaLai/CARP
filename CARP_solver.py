@@ -46,26 +46,38 @@ def main():
     p.join()
     populations = list(populations)  # turn it to normal list so it can sort easily
     sort_population(populations)
-    print_populations(populations)
+    # print_populations(populations)
     print('populations number is ', len(populations))
     best = find_best_solution(populations)
     print('best route', solution_output(best.Route))
-    print('q', best.Cost)
-    print('graph cal cost', graph.calculate_cost(best.Route))
+    print('q', best.Cost, 'fit', ave_population_cost(populations))
     init_end = time.time()
     init_time = init_end - start
     evolution_time = LIMIT_TIME - init_time
-    # start evolution
-    evo = EvoSolves(graph, populations, evolution_time, seed=SEED)
-    mutation_route = mutation(best.Route)
-    mutation_cost = graph.calculate_cost(mutation_route)
-    print('mutation route', solution_output(mutation_route))
-    print('mutation cost', mutation_cost)
+    # ================ start evolution =============
+    solve_problem(graph, populations, evolution_time, SEED)
+    # =============== end evolution ================
+    # test, try to mutate every population
+    # evo.population_mutate()
+    # p = evo.population
+    # sort_population(p)
+    # mut_best_solution = find_best_solution(populations)
+    # mut_fit = ave_population_cost(p)
+    # print('best after group mutate', mut_best_solution.Cost, 'fitness', mut_fit)
+    # test finish
     print('The limited time is ', LIMIT_TIME)
     print('init_group_time', init_time)
     print("there is {} second for evolution".format(evolution_time))
     end = time.time()
     print('total_time', end-start)
+
+
+def solve_problem(graph, populations, evolution_time, seed):
+    """
+    the main solve function, will use multiprocessor to solve it
+    :return:
+    """
+    evo = EvoSolves(graph, populations, evolution_time, seed=seed)
 
 
 def init_population(result_list, random_seed, pop_num, graph, infos):
