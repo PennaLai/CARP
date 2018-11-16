@@ -1,15 +1,20 @@
 import time
+import random
 
 
 class EvoSolves:
 
-    def __init__(self, p, s_time, evo_time=50):
+    def __init__(self, graph, p, evo_time, seed):
+        self.graph = graph
         self.population = p
         self.best_solution = None
-        self.start_time = s_time
+        self.start_time = time.time()
         self.evo_time = evo_time
+        self.seed = seed
+        if self.seed:
+            random.seed(self.seed)
 
-    def evolutionary(self, p):
+    def evolutionary(self, p, k):
         """
         given a population P, and select parents to
         make a better fitness child
@@ -17,8 +22,9 @@ class EvoSolves:
         :return:
         """
         # give 60s, and we use 60-10=50s in evolutionary
-        while time.time() - self.start_time > self.evo_time:
-            while True:  # the k iteration number
+        while time.time() - self.start_time > self.evo_time-1:
+            while k > 0:  # the k iteration number
+                k -= 1
                 pa, pb = self.select_parents(p)
                 child1, child2 = crossover(pa, pb)
                 # true_child = random_select(child1, child2)
@@ -33,28 +39,41 @@ class EvoSolves:
                     lar_cost_pa = pa if fitness(pa) > fitness(pb) else pb
 
 
-    def select_parent(self, p):
-        """
-        given a population, select two parents randoms
-        :param p:
-        :return:
-        """
-        pass
+def select_parent(p):
+    """
+    given a population, select two parents randomly from the population
+    :param p:
+    :return:
+    """
+    p1, p2 = random.sample(p, 2)
 
 
 def fitness(solution):
     return solution.Cost
-    pass
 
 
 def crossover(pa, pb):
     """
     crossover two parents, and breed two child
+    the chromosome T is a permutation of t required edges (tasks)
     :param pa: parent1
     :param pb: parent2
     :return:
         child1
         child2
     """
+
     pass
+
+
+def mutation(solution):
+    """
+    mutate one solution to the new solution
+    :param solution:
+    :return: new_solution : the new solution
+    """
+    new_solution = solution.copy()
+    # a simple mutation
+    
+    return new_solution
 

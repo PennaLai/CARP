@@ -65,6 +65,21 @@ class Graph:
             self.cost_table[x-1, y-1] = int(cost)
             self.cost_table[y-1, x-1] = int(cost)
 
+    def calculate_cost(self, route):
+        cost = 0
+        for task in route:
+            node_now = 1
+            for edge in task:
+                cost += self.cost_table[node_now-1, edge[0]-1]
+                if edge in self.edge_set:
+                    edge_cost = self.edge_set[edge].Cost
+                else:
+                    edge_cost = self.edge_set[(edge[1], edge[0])].Cost
+                cost += edge_cost
+                node_now = edge[1]
+            cost += self.cost_table[node_now-1, 0]  # back cost
+        return cost
+
 
 def floyd(dis_arr):
     """
