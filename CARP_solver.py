@@ -21,7 +21,7 @@ def main():
     main function
     """
     # start time
-    start = time.time()
+    start_time = time.time()
     # read the command
     parser = argparse.ArgumentParser(prog='CARP',description='import problem')
     parser.add_argument('instance', type=argparse.FileType('r'))
@@ -36,48 +36,52 @@ def main():
     graph = Graph(infos, graph_data)
     mg = Manager()
     populations = mg.list()
-    # multiprocessing to init the population
+    # multiprocessing to solve the problem
     p = Pool(PROCESSORS)
-    for i in range(PROCESSORS):
+    for i in range(4):
         # every processing have it own seed (0 -> 10^9)
-        p.apply_async(init_population, (populations, np.random.randint(0, 10 ** 9), 1000, graph, infos))
+        p.apply_async(solve_problem, (populations, graph, infos, start_time, LIMIT_TIME, np.random.randint(0, 10 ** 9)))
     print('wait for all subprocesses done')
     p.close()
     p.join()
-    populations = list(populations)  # turn it to normal list so it can sort easily
-    sort_population(populations)
-    # print_populations(populations)
-    print('populations number is ', len(populations))
-    best = find_best_solution(populations)
+    # get the last result into a world
+    world = list()
+    for po in populations:
+        world += po
+    sort_population(world)
+    print('world number is ', len(world))
+    best = find_best_solution(world)
     print('best route', solution_output(best.Route))
-    print('q', best.Cost, 'fit', ave_population_cost(populations))
-    init_end = time.time()
-    init_time = init_end - start
-    evolution_time = LIMIT_TIME - init_time
-    # ================ start evolution =============
-    solve_problem(graph, populations, evolution_time, SEED)
-    # =============== end evolution ================
-    # test, try to mutate every population
-    # evo.population_mutate()
-    # p = evo.population
-    # sort_population(p)
-    # mut_best_solution = find_best_solution(populations)
-    # mut_fit = ave_population_cost(p)
-    # print('best after group mutate', mut_best_solution.Cost, 'fitness', mut_fit)
-    # test finish
+    print('q', best.Cost, 'fit', ave_population_cost(world))
     print('The limited time is ', LIMIT_TIME)
-    print('init_group_time', init_time)
-    print("there is {} second for evolution".format(evolution_time))
     end = time.time()
-    print('total_time', end-start)
+    print('total_time', end-start_time)
 
 
-def solve_problem(graph, populations, evolution_time, seed):
+def solve_problem(result_list, graph, infos, start_time, limited_time, seed):
     """
     the main solve function, will use multiprocessor to solve it
     :return:
     """
+    np.random.seed(seed)
+    populations = list()
+    populations = init_population(populations, np.random.randint(0, 10 ** 9), 200, graph, infos)
+    evolution_time = limited_time - (time.time() - start_time)
     evo = EvoSolves(graph, populations, evolution_time, seed=seed)
+    populations = evo.evolutionary(populations)
+    # # test for crossover
+    # print('当代袁隆平开始杂交')
+    # pa = populations[1]
+    # pb = populations[2]
+    # print('pa', solution_output(pa.Route))
+    # print('pa cost', pa.Cost)
+    # print('pb', solution_output(pb.Route))
+    # print('pb cost', pb.Cost)
+    # child = evo.crossover(pa, pb)
+    # print('child', solution_output(child.Route))
+    # print('child cost', child.Cost)
+    # print('杂交结束')
+    result_list.append(populations)
 
 
 def init_population(result_list, random_seed, pop_num, graph, infos):
@@ -94,6 +98,7 @@ def init_population(result_list, random_seed, pop_num, graph, infos):
     for i in range(pop_num):
         solution = path_scanning(graph, infos, np.random.randint(0, 10 ** 9))
         result_list.append(solution)
+    return result_list
 
 
 def path_scanning(graph, infos, random_seed):

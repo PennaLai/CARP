@@ -18,6 +18,7 @@ class Graph:
         self.vertices_set = dict()
         self.edge_set = dict()
         self.verti_numb = int(infos['VERTICES'])  # number of node
+        self.capa = int(infos['CAPACITY'])
         # init cost array
         self.cost_table = np.full((self.verti_numb, self.verti_numb), float('inf'), dtype=float)
         for i in range(self.verti_numb):
