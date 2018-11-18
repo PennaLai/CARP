@@ -1,6 +1,7 @@
 import time
 import random
 from CARP_solver import Solution
+import copy
 
 class EvoSolves:
 
@@ -29,20 +30,36 @@ class EvoSolves:
             child1 = self.crossover(pa, pb)
             child2 = self.crossover(pb, pa)
             best_child = select_child(child1, child2)
+            best_child = self.mutation(best_child)  # after mutation
             if fitness(pa) > fitness(pb):
                 worse_parent, worse_index = pa, pa_index
             else:
                 worse_parent, worse_index = pb, pb_index
             if fitness(best_child) < min(fitness(pa), fitness(pb)):  # if the child is better the worse one, replace it
-                if fitness(best_child) < fitness(self.best_solution):
-                    self.best_solution = best_child
+                # if fitness(best_child) < fitness(self.best_solution):
+                #     self.best_solution = best_child
                 # replace the parent which have largest cost
                 if fitness(best_child) < fitness(worse_parent):
                     p[worse_index] = best_child  # replace its father
         return p
 
-    def mutation(self):
-        pass
+    def mutation(self, solution):
+        """
+        randomly choose one way to mutate
+        :param solution:
+        :return:
+        """
+        r = random.randint(0, 2)
+        if r == 0:
+            return self.flip_mutation(solution)
+        elif r == 1:
+            return self.single_insertion_mutation(solution)
+        elif r == 2:
+            return self.all_flip_mutation(solution)
+        # elif r == 3:  # no mutation if r = 3
+        #     return solution
+        # elif r == 4:
+        #     return
 
     def all_flip_mutation(self, solution):
         """
@@ -51,9 +68,8 @@ class EvoSolves:
         :param solution:
         :return: new_solution : the new solution
         """
-        new_route = solution.Route.copy()
+        new_route = copy.deepcopy(solution.Route)
         cost = solution.Cost
-        new_cost = 0
         # a simple mutation
         for task in new_route:
             edge_index = 0
@@ -70,17 +86,58 @@ class EvoSolves:
         return Solution(Route=new_route, Cost=new_cost)
 
     def flip_mutation(self, solution):
-        route = solution.Route
-        r1 = random.randint(0, len(route))
-        r2 = random.randint(0, len(route[r1]))
+        route = copy.deepcopy(solution.Route)
+        r1 = 0 if len(route) == 1 else random.randint(0, len(route)-1)
+        r2 = 0 if len(route[r1]) == 1 else random.randint(0, len(route[r1])-1)
         edge = route[r1][r2]
         flip = (edge[1], edge[0])
         route[r1][r2] = flip
         cost = self.graph.calculate_cost(route)
-        return Solution(Route=route, Cost=cost)
+        # we only return the better choices
+        if cost <= solution.Cost:
+            return Solution(Route=route, Cost=cost)
+        else:
+            return solution
 
-    def single_insertion_mutation(self):
-        pass
+    def single_insertion_mutation(self, solution):
+        """
+        single insert one edge to other place
+        :param solution:
+        :return:
+        """
+        route = copy.deepcopy(solution.Route)
+        r1 = 0 if len(route) == 1 else random.randint(0, len(route)-1)
+        r2 = 0 if len(route[r1]) == 1 else random.randint(0, len(route[r1])-1)
+        edge = route[r1][r2]
+        if len(route[r1]) > 1:
+            route[r1].remove(edge)
+        else:
+            route.pop(r1)
+        if edge in self.graph.edge_set:
+            edge_demand = self.graph.edge_set[edge].Demand
+        else:
+            edge_demand = self.graph.edge_set[(edge[1], edge[0])].Demand
+        cap = self.graph.capa
+        time = len(route)
+        # there is s problem that if we remove a edge from the task that only has a single edge,
+        # it may not insert in to other task, so if we random it 9 times and still can not find it, we finish
+        while True:
+            if time == 0:
+                return solution
+            time -= 1
+            task_pos = 0 if len(route) == 1 else random.randint(0, len(route)-1)
+            if self.graph.calculate_task_demand(route[task_pos]) + edge_demand <= cap:
+                insert_pos = 0 if len(route[task_pos]) == 1 else random.randint(0, len(route[task_pos])-1)
+                route[task_pos].insert(insert_pos, edge)
+                break
+            else:
+                continue
+        new_cost = self.graph.calculate_cost(route)
+        if new_cost < solution.Cost:
+            return Solution(Route=route, Cost=new_cost)
+        else:
+            return solution
+
 
     def swap_mutation(self):
         pass
@@ -144,7 +201,6 @@ class EvoSolves:
         # the pb part
         child_route.append([])
         route_cap = capa
-
         for task in b_route:
             for edge in task:
                 if not free_edge:  # if free edge is empty break
@@ -169,6 +225,7 @@ class EvoSolves:
 
 def select_child(child1, child2):
     return child1 if fitness(child1) < fitness(child2) else child2
+
 
 def fitness(solution):
     return solution.Cost

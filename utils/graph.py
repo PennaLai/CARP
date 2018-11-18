@@ -81,6 +81,14 @@ class Graph:
             cost += self.cost_table[node_now-1, 0]  # back cost
         return cost
 
+    def calculate_task_demand(self, task):
+        demand = 0
+        for x in task:
+            if x in self.edge_set:
+                demand += self.edge_set[x].Demand
+            else:
+                demand += self.edge_set[(x[1], x[0])].Demand
+        return demand
 
 def floyd(dis_arr):
     """

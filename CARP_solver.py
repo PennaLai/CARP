@@ -10,7 +10,7 @@ from collections import namedtuple
 from utils.evolution import *
 from utils.population import *
 
-PROCESSORS = 4
+PROCESSORS = 8
 Solution = namedtuple("Solution", "Route Cost")
 LIMIT_TIME = 0
 SEED = 0
@@ -38,10 +38,10 @@ def main():
     populations = mg.list()
     # multiprocessing to solve the problem
     p = Pool(PROCESSORS)
-    for i in range(4):
+    for i in range(PROCESSORS):
         # every processing have it own seed (0 -> 10^9)
         p.apply_async(solve_problem, (populations, graph, infos, start_time, LIMIT_TIME, np.random.randint(0, 10 ** 9)))
-    print('wait for all subprocesses done')
+    # print('wait for all subprocesses done')
     p.close()
     p.join()
     # get the last result into a world
@@ -49,13 +49,14 @@ def main():
     for po in populations:
         world += po
     sort_population(world)
-    print('world number is ', len(world))
+    # print('world number is ', len(world))
     best = find_best_solution(world)
-    print('best route', solution_output(best.Route))
-    print('q', best.Cost, 'fit', ave_population_cost(world))
-    print('The limited time is ', LIMIT_TIME)
-    end = time.time()
-    print('total_time', end-start_time)
+    print(solution_output(best.Route))
+    print('q', int(best.Cost))
+    # print('group fit', ave_population_cost(world))
+    # print('The limited time is ', LIMIT_TIME)
+    # end = time.time()
+    # print('total_time', end-start_time)
 
 
 def solve_problem(result_list, graph, infos, start_time, limited_time, seed):
@@ -66,21 +67,11 @@ def solve_problem(result_list, graph, infos, start_time, limited_time, seed):
     np.random.seed(seed)
     populations = list()
     populations = init_population(populations, np.random.randint(0, 10 ** 9), 200, graph, infos)
+    sort_population(populations)
+    populations = populations[0:30]  # we only need 50
     evolution_time = limited_time - (time.time() - start_time)
     evo = EvoSolves(graph, populations, evolution_time, seed=seed)
     populations = evo.evolutionary(populations)
-    # # test for crossover
-    # print('当代袁隆平开始杂交')
-    # pa = populations[1]
-    # pb = populations[2]
-    # print('pa', solution_output(pa.Route))
-    # print('pa cost', pa.Cost)
-    # print('pb', solution_output(pb.Route))
-    # print('pb cost', pb.Cost)
-    # child = evo.crossover(pa, pb)
-    # print('child', solution_output(child.Route))
-    # print('child cost', child.Cost)
-    # print('杂交结束')
     result_list.append(populations)
 
 
