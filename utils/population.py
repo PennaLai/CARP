@@ -41,3 +41,23 @@ def ave_population_cost(populations):
     for po in populations:
         total_cost += po.Cost
     return int(total_cost/num)
+
+
+def get_group_number(cost):
+    """
+    chose group number depend on the cost
+    :param cost:
+    :return:
+    """
+    if cost <= 200:
+        return 100
+    elif 200 < cost <= 300:
+        return 75
+    elif 300 < cost <= 400:
+        return 50
+    elif 400 < cost <= 500:
+        return 30
+    elif 3000 < cost <= 5000:
+        return 100
+    elif cost > 5000:
+        return 30

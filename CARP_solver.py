@@ -49,6 +49,7 @@ def main():
     for po in populations:
         world += po
     sort_population(world)
+    print_populations(world)
     # print('world number is ', len(world))
     best = find_best_solution(world)
     print(solution_output(best.Route))
@@ -68,7 +69,9 @@ def solve_problem(result_list, graph, infos, start_time, limited_time, seed):
     populations = list()
     populations = init_population(populations, np.random.randint(0, 10 ** 9), 200, graph, infos)
     sort_population(populations)
-    populations = populations[0:30]  # we only need 50
+    best_cost = populations[0].Cost
+    pop_num = get_group_number(best_cost)
+    populations = populations[0:pop_num]  # we only need 30
     evolution_time = limited_time - (time.time() - start_time)
     evo = EvoSolves(graph, populations, evolution_time, seed=seed)
     populations = evo.evolutionary(populations)

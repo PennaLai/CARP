@@ -41,6 +41,7 @@ class EvoSolves:
                 # replace the parent which have largest cost
                 if fitness(best_child) < fitness(worse_parent):
                     p[worse_index] = best_child  # replace its father
+
         return p
 
     def mutation(self, solution):
