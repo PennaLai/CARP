@@ -41,7 +41,31 @@ class EvoSolves:
                 # replace the parent which have largest cost
                 if fitness(best_child) < fitness(worse_parent):
                     p[worse_index] = best_child  # replace its father
+        return p
 
+    def slowly_evolution(self, p):
+        """
+        given a population P, and select parents to
+        make a better fitness child slowly
+        :param p: population (path-scanning random solution)
+        :return:
+        """
+        while True:  # if time allow, do it
+            if time.time() - self.start_time > self.evo_time - 2:
+                break
+            pa, pa_index = self.select_parent(p)
+            pb, pb_index = self.select_parent(p)
+            child1 = self.mutation(pa)
+            child2 = self.mutation(pb)
+            best_child = self.crossover(child2, child1)
+            # best_child = select_child(child1, child2)
+            if fitness(pa) > fitness(pb):
+                worse_parent, worse_index = pa, pa_index
+            else:
+                worse_parent, worse_index = pb, pb_index
+            if fitness(best_child) < min(fitness(pa), fitness(pb)):  # if the child is better the worse one, replace it
+                if fitness(best_child) < fitness(worse_parent):
+                    p[worse_index] = best_child  # replace its father
         return p
 
     def mutation(self, solution):
@@ -138,7 +162,6 @@ class EvoSolves:
             return Solution(Route=route, Cost=new_cost)
         else:
             return solution
-
 
     def swap_mutation(self):
         pass

@@ -10,7 +10,7 @@ from collections import namedtuple
 from utils.evolution import *
 from utils.population import *
 
-PROCESSORS = 8
+PROCESSORS = 4
 Solution = namedtuple("Solution", "Route Cost")
 LIMIT_TIME = 0
 SEED = 0
@@ -49,7 +49,7 @@ def main():
     for po in populations:
         world += po
     sort_population(world)
-    print_populations(world)
+    # print_populations(world)
     # print('world number is ', len(world))
     best = find_best_solution(world)
     print(solution_output(best.Route))
@@ -74,7 +74,12 @@ def solve_problem(result_list, graph, infos, start_time, limited_time, seed):
     populations = populations[0:pop_num]  # we only need 30
     evolution_time = limited_time - (time.time() - start_time)
     evo = EvoSolves(graph, populations, evolution_time, seed=seed)
-    populations = evo.evolutionary(populations)
+    # test ====
+    if best_cost < 1000:
+        # try to find more
+        populations = evo.slowly_evolution(populations)
+    else:
+        populations = evo.evolutionary(populations)
     result_list.append(populations)
 
 
