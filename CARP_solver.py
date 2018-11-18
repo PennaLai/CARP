@@ -10,7 +10,7 @@ from collections import namedtuple
 from utils.evolution import *
 from utils.population import *
 
-PROCESSORS = 4
+PROCESSORS = 8
 Solution = namedtuple("Solution", "Route Cost")
 LIMIT_TIME = 0
 SEED = 0
@@ -70,14 +70,14 @@ def solve_problem(result_list, graph, infos, start_time, limited_time, seed):
     populations = init_population(populations, np.random.randint(0, 10 ** 9), 200, graph, infos)
     sort_population(populations)
     best_cost = populations[0].Cost
-    pop_num = get_group_number(best_cost)
+    pop_num, min_max = get_group_number(best_cost)
     populations = populations[0:pop_num]  # we only need 30
     evolution_time = limited_time - (time.time() - start_time)
     evo = EvoSolves(graph, populations, evolution_time, seed=seed)
     # test ====
     if best_cost < 1000:
         # try to find more
-        populations = evo.slowly_evolution(populations)
+        populations = evo.slowly_evolution(populations, min_max)
     else:
         populations = evo.evolutionary(populations)
     result_list.append(populations)
@@ -158,7 +158,7 @@ def path_scanning(graph, infos, random_seed):
             '''
             # =========== give up setting ==============
             # randomly give up
-            give_up_cap = np.random.randint(1, 4)
+            give_up_cap = np.random.randint(1, 3)
             if this_cap <= give_up_cap/10 * capa:
                 this_cap = 0
             # this_cap = this_cap-1 if this_cap > 1 else this_cap

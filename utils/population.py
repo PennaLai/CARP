@@ -50,16 +50,16 @@ def get_group_number(cost):
     :return:
     """
     if cost <= 200:
-        return 100
+        return 100, 0
     elif 200 < cost <= 300:
-        return 75
+        return 75, 0
     elif 300 < cost <= 400:
-        return 50
+        return 50, 1
     elif 400 < cost <= 500:
-        return 30
+        return 30, 1
     elif 3000 < cost <= 5000:
-        return 100
+        return 100, 0
     elif cost > 5000:
-        return 30
+        return 30, 1
     else:
-        return 30
+        return 30, 1

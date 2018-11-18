@@ -2,6 +2,8 @@ import time
 import random
 from CARP_solver import Solution
 import copy
+from utils.population import *
+
 
 class EvoSolves:
 
@@ -43,29 +45,32 @@ class EvoSolves:
                     p[worse_index] = best_child  # replace its father
         return p
 
-    def slowly_evolution(self, p):
+    def slowly_evolution(self, p, min_max):
         """
         given a population P, and select parents to
-        make a better fitness child slowly
+        make a better fitness child slowly, and not replace their parents
         :param p: population (path-scanning random solution)
         :return:
         """
+        pop_num = len(p)
         while True:  # if time allow, do it
             if time.time() - self.start_time > self.evo_time - 2:
                 break
+            if pop_num < len(p)+30:  # selection
+                sort_population(p)
+                p = p[0:pop_num]
             pa, pa_index = self.select_parent(p)
             pb, pb_index = self.select_parent(p)
-            child1 = self.mutation(pa)
-            child2 = self.mutation(pb)
-            best_child = self.crossover(child2, child1)
-            # best_child = select_child(child1, child2)
-            if fitness(pa) > fitness(pb):
-                worse_parent, worse_index = pa, pa_index
+            child1 = self.crossover(pa, pb)
+            child2 = self.crossover(pb, pa)
+            best_child = select_child(child1, child2)
+            best_child = self.mutation(best_child)  # after mutation
+            if min_max == 0:
+                if fitness(best_child) < min(fitness(pa), fitness(pb)):
+                    p.append(best_child)
             else:
-                worse_parent, worse_index = pb, pb_index
-            if fitness(best_child) < min(fitness(pa), fitness(pb)):  # if the child is better the worse one, replace it
-                if fitness(best_child) < fitness(worse_parent):
-                    p[worse_index] = best_child  # replace its father
+                if fitness(best_child) < max(fitness(pa), fitness(pb)):
+                    p.append(best_child)
         return p
 
     def mutation(self, solution):
