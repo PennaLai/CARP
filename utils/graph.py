@@ -2,10 +2,10 @@
 a class used to make the graph
 """
 
-import collections
+from collections import namedtuple
 import numpy as np
 
-edge_info = collections.namedtuple('edge_info', 'Demand')
+edge_info = namedtuple('edge_info', 'Cost Demand')
 
 
 class Graph:
@@ -18,14 +18,15 @@ class Graph:
         self.vertices_set = dict()
         self.edge_set = dict()
         self.verti_numb = int(infos['VERTICES'])  # number of node
+        self.capa = int(infos['CAPACITY'])
         # init cost array
         self.cost_table = np.full((self.verti_numb, self.verti_numb), float('inf'), dtype=float)
         for i in range(self.verti_numb):
             self.cost_table[i, i] = 0
         self.read_data(graph_data)
         floyd(self.cost_table)
-        print(self.cost_table)
-        print(self.edge_set)
+        # print_table(self.cost_table)
+        # print(self.edge_set)
 
     def read_data(self, graph_data):
         """
@@ -60,11 +61,34 @@ class Graph:
         :param demand: demand from node1 to node2
         """
         if (x, y) not in self.edge_set:
-            self.edge_set[(x, y)] = edge_info(Demand=int(demand))
+            self.edge_set[(x, y)] = edge_info(Cost=int(cost), Demand=int(demand))
             # the numpy index begin from 0 but the vertices begin from 1
             self.cost_table[x-1, y-1] = int(cost)
             self.cost_table[y-1, x-1] = int(cost)
 
+    def calculate_cost(self, route):
+        cost = 0
+        for task in route:
+            node_now = 1
+            for edge in task:
+                cost += self.cost_table[node_now-1, edge[0]-1]
+                if edge in self.edge_set:
+                    edge_cost = self.edge_set[edge].Cost
+                else:
+                    edge_cost = self.edge_set[(edge[1], edge[0])].Cost
+                cost += edge_cost
+                node_now = edge[1]
+            cost += self.cost_table[node_now-1, 0]  # back cost
+        return cost
+
+    def calculate_task_demand(self, task):
+        demand = 0
+        for x in task:
+            if x in self.edge_set:
+                demand += self.edge_set[x].Demand
+            else:
+                demand += self.edge_set[(x[1], x[0])].Demand
+        return demand
 
 def floyd(dis_arr):
     """
@@ -72,8 +96,14 @@ def floyd(dis_arr):
     :param dis_arr: the distance array
     """
     res_len = len(dis_arr)
-    for i in range(res_len):
-        for j in range(res_len):
-            for k in range(res_len):
-                if dis_arr[i, j] > dis_arr[i, k] + dis_arr[k, j]:
-                    dis_arr[i, j] = dis_arr[i, k] + dis_arr[k, j]
+    for k in range(res_len):
+        for i in range(res_len):
+            for j in range(res_len):
+                dis_arr[i, j] = min(dis_arr[i, j], dis_arr[i, k] + dis_arr[k, j])
+
+
+def print_table(np_array):
+    for x in np_array:
+        for y in x:
+            print(y, end=' ')
+        print()
