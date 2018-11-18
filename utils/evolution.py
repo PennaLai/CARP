@@ -172,7 +172,6 @@ class EvoSolves:
                 return i, index
             index += 1
 
-
     def crossover(self, pa, pb):
         """
         crossover two parents, and breed two child

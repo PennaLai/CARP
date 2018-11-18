@@ -61,3 +61,5 @@ def get_group_number(cost):
         return 100
     elif cost > 5000:
         return 30
+    else:
+        return 30
