@@ -10,7 +10,7 @@ from collections import namedtuple
 from utils.evolution import *
 from utils.population import *
 
-PROCESSORS = 8
+PROCESSORS = 4
 Solution = namedtuple("Solution", "Route Cost")
 LIMIT_TIME = 0
 SEED = 0
